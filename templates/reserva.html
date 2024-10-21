@@ -3,11 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Reservar Horário</title>
+    <script>
+        function validarData() {
+            const dataSelecionada = new Date(document.getElementById("data").value);
+            const dataAtual = new Date();
+            const dataLimite = new Date(dataAtual.getTime() + (2 * 24 * 60 * 60 * 1000)); // 48 horas (2 dias)
+
+            if (dataSelecionada > dataLimite) {
+                alert('A data deve ser marcada com no máximo 2 dias de antecedência. Por favor, escolha uma data válida.');
+                return false; // Impede o envio do formulário
+            }
+            return true; // Permite o envio do formulário
+        }
+    </script>
 </head>
 <body>
     <h1>Reservar Horário</h1>
-    
-    <form method="POST">
+
+    <form method="POST" onsubmit="return validarData();">
+        <label for="data">Escolha uma data:</label>
+        <input type="date" id="data" name="data" required>
+        
         <label for="horario">Escolha um horário:</label>
         <select name="horario" id="horario" required>
             <option value="">Selecione um horário</option>
@@ -15,9 +31,10 @@
                 <option value="{{ horario }}">{{ horario }}</option>
             {% endfor %}
         </select>
+        
         <button type="submit">Reservar</button>
     </form>
-    
+
     <a href="{{ url_for('index') }}">Voltar</a>
 </body>
 </html>

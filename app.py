@@ -60,17 +60,40 @@ def login():
 @app.route('/reserva', methods=['GET', 'POST'])
 @login_required
 def reserva():
-    data_atual = datetime.now().strftime('%Y-%m-%d')  # Obtém a data atual
     if request.method == 'POST':
+        data = request.form['data']
         horario = request.form['horario']
-        nova_reserva = Reserva(data=data_atual, horario=horario, user_id=current_user.id)
+        
+        # Verifica se a data está dentro do limite de 48 horas (2 dias)
+        data_escolhida = datetime.strptime(data, '%Y-%m-%d')
+        data_limite = datetime.now() + timedelta(days=2)
+
+        if data_escolhida < datetime.now():
+            flash('A data não pode ser no passado.')
+            return redirect(url_for('reserva'))
+
+        if data_escolhida > data_limite:
+            flash('A data deve ser marcada com no máximo 2 dias de antecedência. Por favor, escolha uma data válida.')
+            return redirect(url_for('reserva'))
+
+        # Verifica se já existe uma reserva nesse horário
+        reserva_existente = Reserva.query.filter_by(data=data, horario=horario).first()
+        if reserva_existente:
+            flash('Esse horário já está reservado.')
+            return redirect(url_for('reserva'))
+
+        # Cria a nova reserva
+        nova_reserva = Reserva(data=data, horario=horario, user_id=current_user.id)
         db.session.add(nova_reserva)
         db.session.commit()
         flash('Reserva realizada com sucesso!')
         return redirect(url_for('index'))
-    
-    horarios_disponiveis = obter_horarios_disponiveis(data_atual)
-    return render_template('reserva.html', horarios=horarios_disponiveis)
+
+    # Obtém horários disponíveis para a data atual
+    horarios = obter_horarios_disponiveis(datetime.now().strftime('%Y-%m-%d'))
+    return render_template('reserva.html', horarios=horarios)
+
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
