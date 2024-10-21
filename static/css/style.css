@@ -1,0 +1,222 @@
+/* Geral */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+h1 {
+    color: #4CAF50;
+    text-align: center;
+}
+
+.container {
+    width: 80%;
+    max-width: 900px;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: auto;
+}
+
+a {
+    text-decoration: none;
+    color: #4CAF50;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button, .btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover, .btn:hover {
+    background-color: #45a049;
+}
+
+/* Estilização de listas */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    padding: 10px;
+    background-color: #eee;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+li:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.reserved {
+    color: #ff0000;
+}
+
+.available {
+    color: #4CAF50;
+}
+
+/* Mensagens flash */
+.flash-messages ul {
+    list-style: none;
+    padding: 10px;
+    background-color: #ffdddd;
+    border: 1px solid #ff0000;
+    color: #ff0000;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+/* Botões */
+.buttons a {
+    margin-right: 15px;
+}
+
+/* Estilos de formulário (login e registro) */
+.form-container {
+    width: 300px;
+    margin: auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 50px;
+}
+
+.form-container h1 {
+    text-align: center;
+    color: #4CAF50;
+}
+
+.form-container label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form-container input[type="text"]:focus,
+.form-container input[type="password"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.form-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.form-container button:hover {
+    background-color: #45a049;
+}
+
+.form-container p {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.form-container a {
+    color: #4CAF50;
+}
+
+.form-container a:hover {
+    text-decoration: underline;
+}
+
+/* Mensagens flash */
+.flash-messages {
+    margin-bottom: 15px;
+    color: #ff0000;
+    text-align: center;
+}
+
+/* Estilos para o painel de reservas e lista de horários */
+.lista-horarios {
+    display: none;
+    margin-top: 10px;
+}
+
+.lista-horarios.expanded {
+    display: block;
+}
+
+h3 {
+    margin: 10px 0;
+    font-size: 1.2em;
+    color: #4CAF50;
+    cursor: pointer;
+}
+
+.arrow {
+    font-size: 0.8em;
+}
+
+/* Estilos para a tabela de reservas */
+.reservas-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.reservas-table th, .reservas-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.reservas-table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.reservas-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.reservas-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilo do botão de cancelar reserva */
+.btn-cancel {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-cancel:hover {
+    background-color: #ff0000;
+}

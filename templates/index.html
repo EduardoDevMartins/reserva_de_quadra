@@ -2,51 +2,84 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Página Inicial</title>
+    <title>Reservas de Quadra de Tênis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        function mostrarHorarios(data) {
+            const listaHorarios = document.querySelector(`#horarios-${data}`);
+            const todasAsListas = document.querySelectorAll('.lista-horarios');
+
+            // Oculta todas as outras listas
+            todasAsListas.forEach(lista => {
+                if (lista !== listaHorarios) {
+                    lista.classList.remove('expanded');
+                }
+            });
+
+            // Alterna a exibição da lista de horários correspondente à data
+            if (listaHorarios) {
+                listaHorarios.classList.toggle('expanded');
+            }
+        }
+    </script>
 </head>
 <body>
-    <h1>Bem-vindo ao Sistema de Reservas</h1>
+    <div class="container">
+        <h1>Reservas de Quadra de Tênis Grêmio Fronteira</h1>
+        <br><br>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        {% if current_user.is_authenticated %}
+            <h2>Olá, {{ current_user.nome }}!</h2>
+            <br>
+            <div class="buttons">
+                <a href="{{ url_for('reserva') }}" class="btn">Nova Reserva</a>
+                <a href="{{ url_for('minhas_reservas') }}" class="btn">Minhas Reservas</a>
+                <a href="{{ url_for('logout') }}" class="btn">Sair</a>
+            </div>
+        {% else %}
+            <div class="buttons">
+                <a href="{{ url_for('login') }}" class="btn">Login</a>
+                <a href="{{ url_for('register') }}" class="btn">Registrar</a>
+            </div>
+        {% endif %}
+        <br><br>
+
+        <h2>Agenda de Reservas:</h2>
         <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
+            {% for dia in range(3) %}
+                {% set data_atual = (datetime.now() + timedelta(days=dia)).strftime('%Y-%m-%d') %}
+                <h3 onclick="mostrarHorarios('{{ data_atual }}')" style="cursor:pointer;">
+                    {{ data_atual }} <span class="arrow">▼</span>
+                </h3>
+
+                <div id="horarios-{{ data_atual }}" class="lista-horarios">
+                    {% for h in range(8, 24) %}
+                        {% set horario = '{:02d}:00-{:02d}:00'.format(h, h + 1) %}
+                        {% set reserva = Reserva.query.filter_by(data=data_atual, horario=horario).first() %}
+                        <li>
+                            {{ horario }} -
+                            {% if reserva %}
+                                <span class="reserved">Reservado por: {{ reserva.user.nome }}</span>
+                            {% else %}
+                                <span class="available">Livre</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </div>
+            {% endfor %}
         </ul>
-      {% endif %}
-    {% endwith %}
-
-    {% if current_user.is_authenticated %}
-        <p>Olá, {{ current_user.nome }}!</p>
-        <a href="{{ url_for('logout') }}">Logout</a>
-        <p><a href="{{ url_for('minhas_reservas') }}">Minhas Reservas</a></p>
-
-    {% else %}
-        <a href="{{ url_for('login') }}">Login</a>
-        <a href="{{ url_for('register') }}">Registrar</a>
-    {% endif %}
-
-    <h2>Reservas:</h2>
-    <ul>
-      {% for dia in range(7) %}
-        {% set data_atual = (datetime.now() + timedelta(days=dia)).strftime('%Y-%m-%d') %}
-        <h3>{{ data_atual }}</h3>
-        {% for h in range(8, 24) %}
-            {% set horario = '{:02d}:00-{:02d}:00'.format(h, h + 1) %}
-            {% set reserva = Reserva.query.filter_by(data=data_atual, horario=horario).first() %}
-            <li>
-              {{ horario }} - 
-              {% if reserva %}
-                Reservado por: {{ reserva.user.nome }}  <!-- Aqui você pode acessar user -->
-              {% else %}
-                Livre
-              {% endif %}
-            </li>
-        {% endfor %}
-      {% endfor %}
-    </ul>
-
-    <a href="{{ url_for('reserva') }}">Nova Reserva</a>
+    </div>
 </body>
 </html>

@@ -3,27 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1>Login</h1>
-    
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-    
-    <form method="POST">
-        <label for="cpf">CPF:</label>
-        <input type="text" name="cpf" required>
-        <label for="password">Senha:</label>
-        <input type="password" name="password" required>
-        <button type="submit">Entrar</button>
-    </form>
-    <p><a href="{{ url_for('index') }}">Voltar</a></p>
+    <div class="form-container">
+        <h1>Login</h1>
+
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <ul>
+                  {% for message in messages %}
+                    <li>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+        </div>
+
+        <form method="POST">
+            <label for="cpf">CPF:</label>
+            <input type="text" name="cpf" required>
+            <label for="password">Senha:</label>
+            <input type="password" name="password" required>
+            <button type="submit">Entrar</button>
+        </form>
+
+        <p><a href="{{ url_for('index') }}">Voltar</a></p>
+    </div>
 </body>
 </html>

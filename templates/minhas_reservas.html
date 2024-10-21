@@ -3,33 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Minhas Reservas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1>Minhas Reservas</h1>
+    <div class="container">
+        <h1>Minhas Reservas</h1>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash-messages">
+              <ul>
+                {% for message in messages %}
+                  <li>{{ message }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        {% endwith %}
 
-    {% if reservas %}
-        <ul>
-        {% for reserva in reservas %}
-            <li>
-                {{ reserva.data }} - {{ reserva.horario }} 
-                <a href="{{ url_for('excluir_reserva', id=reserva.id) }}">Excluir</a>
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>Você ainda não tem reservas.</p>
-    {% endif %}
-    
-    <a href="{{ url_for('index') }}">Voltar</a>
+        {% if reservas %}
+            <table class="reservas-table">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Horário</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for reserva in reservas %}
+                    <tr>
+                        <td>{{ reserva.data }}</td>
+                        <td>{{ reserva.horario }}</td>
+                        <td>
+                            <a href="{{ url_for('excluir_reserva', id=reserva.id) }}" class="btn-cancel">Excluir</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Você ainda não tem reservas.</p>
+        {% endif %}
+        <br>
+        <a href="{{ url_for('index') }}">Voltar</a>
+    </div>
 </body>
 </html>

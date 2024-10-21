@@ -7,15 +7,23 @@
         function validarData() {
             const dataSelecionada = new Date(document.getElementById("data").value);
             const dataAtual = new Date();
+            dataAtual.setHours(0, 0, 0, 0); // Zera horas, minutos e segundos para comparar apenas a data
             const dataLimite = new Date(dataAtual.getTime() + (2 * 24 * 60 * 60 * 1000)); // 48 horas (2 dias)
-
+    
+            if (dataSelecionada < dataAtual) {
+                alert('A data não pode ser no passado. Por favor, escolha uma data válida.');
+                return false; // Impede o envio do formulário
+            }
+    
             if (dataSelecionada > dataLimite) {
                 alert('A data deve ser marcada com no máximo 2 dias de antecedência. Por favor, escolha uma data válida.');
                 return false; // Impede o envio do formulário
             }
+    
             return true; // Permite o envio do formulário
         }
     </script>
+    
 </head>
 <body>
     <h1>Reservar Horário</h1>

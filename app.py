@@ -127,7 +127,7 @@ def logout():
 @login_required
 def proxima_semana():
     data_atual = datetime.now()
-    data_futura = data_atual + timedelta(weeks=1)
+    data_futura = data_atual + timedelta(days=3)
     return f"A data da próxima semana será: {data_futura.strftime('%Y-%m-%d')}"
 
 @app.route('/minhas_reservas', methods=['GET', 'POST'])
