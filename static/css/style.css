@@ -220,3 +220,58 @@ h3 {
 .btn-cancel:hover {
     background-color: #ff0000;
 }
+
+/* Estilos para o formulário de reserva */
+.reserva-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaçamento entre os elementos */
+    margin-top: 20px;
+}
+
+.reserva-form label {
+    font-weight: bold;
+}
+
+.reserva-form input[type="date"],
+.reserva-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.reserva-form input[type="date"]:focus,
+.reserva-form select:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background-color: #45a049;
+}
+
+.btn-voltar {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #f44336; /* Cor vermelha para o botão voltar */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-voltar:hover {
+    background-color: #d32f2f; /* Cor mais escura ao passar o mouse */
+}
