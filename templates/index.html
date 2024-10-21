@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Página Inicial</title>
+</head>
+<body>
+    <h1>Bem-vindo ao Sistema de Reservas</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% if current_user.is_authenticated %}
+        <p>Olá, {{ current_user.nome }}!</p>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Registrar</a>
+    {% endif %}
+
+    <h2>Reservas:</h2>
+    <ul>
+      {% for dia in range(7) %}
+        {% set data_atual = (datetime.now() + timedelta(days=dia)).strftime('%Y-%m-%d') %}
+        <h3>{{ data_atual }}</h3>
+        {% for h in range(8, 24) %}
+            {% set horario = '{:02d}:00-{:02d}:00'.format(h, h + 1) %}
+            {% set reserva = Reserva.query.filter_by(data=data_atual, horario=horario).first() %}
+            <li>
+              {{ horario }} - 
+              {% if reserva %}
+                Reservado por: {{ reserva.user.nome }}  <!-- Aqui você pode acessar user -->
+              {% else %}
+                Livre
+              {% endif %}
+            </li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+
+    <a href="{{ url_for('reserva') }}">Nova Reserva</a>
+</body>
+</html>
