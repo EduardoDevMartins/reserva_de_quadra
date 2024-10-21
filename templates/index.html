@@ -58,26 +58,35 @@
 
         <h2>Agenda de Reservas:</h2>
         <ul>
+            {% set data_atual = datetime.now().date() %}
+            {% set hora_atual = datetime.now().hour %}
             {% for dia in range(3) %}
-                {% set data_atual = (datetime.now() + timedelta(days=dia)).strftime('%Y-%m-%d') %}
-                <h3 onclick="mostrarHorarios('{{ data_atual }}')" style="cursor:pointer;">
-                    {{ data_atual }} <span class="arrow">▼</span>
-                </h3>
+                {% set data_futura = (data_atual + timedelta(days=dia)) %}
+                {% if data_futura >= data_atual %}  <!-- Verifica se a data é hoje ou futura -->
+                    <h3 onclick="mostrarHorarios('{{ data_futura.strftime('%Y-%m-%d') }}')" style="cursor:pointer;">
+                        {{ data_futura.strftime('%Y-%m-%d') }} <span class="arrow">▼</span>
+                    </h3>
 
-                <div id="horarios-{{ data_atual }}" class="lista-horarios">
-                    {% for h in range(8, 24) %}
-                        {% set horario = '{:02d}:00-{:02d}:00'.format(h, h + 1) %}
-                        {% set reserva = Reserva.query.filter_by(data=data_atual, horario=horario).first() %}
-                        <li>
-                            {{ horario }} -
-                            {% if reserva %}
-                                <span class="reserved">Reservado por: {{ reserva.user.nome }}</span>
+                    <div id="horarios-{{ data_futura.strftime('%Y-%m-%d') }}" class="lista-horarios">
+                        {% for h in range(8, 24) %}
+                            {% set horario = '{:02d}:00-{:02d}:00'.format(h, h + 1) %}
+                            
+                            {% if data_futura == data_atual and h <= hora_atual %} 
+                                {# Não exibe horários passados para hoje #}
                             {% else %}
-                                <span class="available">Livre</span>
+                                {% set reserva = Reserva.query.filter_by(data=data_futura.strftime('%Y-%m-%d'), horario=horario).first() %}
+                                <li>
+                                    {{ horario }} -
+                                    {% if reserva %}
+                                        <span class="reserved">Reservado por: {{ reserva.user.nome }}</span>
+                                    {% else %}
+                                        <span class="available">Livre</span>
+                                    {% endif %}
+                                </li>
                             {% endif %}
-                        </li>
-                    {% endfor %}
-                </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             {% endfor %}
         </ul>
     </div>

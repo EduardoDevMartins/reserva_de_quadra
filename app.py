@@ -64,17 +64,29 @@ def reserva():
         data = request.form['data']
         horario = request.form['horario']
         
-        # Verifica se a data está dentro do limite de 48 horas (2 dias)
+        # Converte a data escolhida para um objeto datetime
         data_escolhida = datetime.strptime(data, '%Y-%m-%d')
-        data_limite = datetime.now() + timedelta(days=2)
+        horario_inicial = int(horario.split(':')[0])  # Pega a hora inicial do horário selecionado
+        data_atual = datetime.now()
 
-        if data_escolhida < datetime.now():
+        # Define o limite de 48 horas a partir da data atual
+        data_limite = data_atual + timedelta(days=2)
+
+        # Verifica se a data é no passado (considerando a hora atual)
+        if data_escolhida.date() < data_atual.date():
             flash('A data não pode ser no passado.')
             return redirect(url_for('reserva'))
 
-        if data_escolhida > data_limite:
+        # Verifica se a data está além do limite de 48 horas
+        if data_escolhida.date() > data_limite.date():
             flash('A data deve ser marcada com no máximo 2 dias de antecedência. Por favor, escolha uma data válida.')
             return redirect(url_for('reserva'))
+
+        # Verifica se a reserva é para hoje e se o horário selecionado é menor que a hora atual + 1 hora
+        if data_escolhida.date() == data_atual.date():
+            if horario_inicial < data_atual.hour or (horario_inicial == data_atual.hour and data_atual.minute >= 0):
+                flash('Você não pode reservar para hoje com menos de 1 hora de antecedência.')
+                return redirect(url_for('reserva'))
 
         # Verifica se já existe uma reserva nesse horário
         reserva_existente = Reserva.query.filter_by(data=data, horario=horario).first()
@@ -92,6 +104,8 @@ def reserva():
     # Obtém horários disponíveis para a data atual
     horarios = obter_horarios_disponiveis(datetime.now().strftime('%Y-%m-%d'))
     return render_template('reserva.html', horarios=horarios)
+
+
 
 
 

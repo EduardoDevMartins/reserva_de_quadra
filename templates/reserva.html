@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Reservar Horário</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
     <script>
         function validarData() {
             const dataSelecionada = new Date(document.getElementById("data").value);
-            const dataAtual = new Date();
-            dataAtual.setHours(0, 0, 0, 0); // Zera horas, minutos e segundos para comparar apenas a data
-            const dataLimite = new Date(dataAtual.getTime() + (2 * 24 * 60 * 60 * 1000)); // 48 horas (2 dias)
+            const horarioSelecionado = document.getElementById("horario").value;
     
-            if (dataSelecionada < dataAtual) {
-                alert('A data não pode ser no passado. Por favor, escolha uma data válida.');
+            // Verifica se o horário foi selecionado
+            if (!horarioSelecionado) {
+                alert('Por favor, escolha um horário.');
                 return false; // Impede o envio do formulário
             }
     
+            const dataAtual = new Date();
+            dataAtual.setHours(0, 0, 0, 0); // Zera horas, minutos e segundos para comparação
+            const dataLimite = new Date(dataAtual.getTime() + (2 * 24 * 60 * 60 * 1000)); // 48 horas (2 dias)
+    
+    
+            // Verifica se a data escolhida ultrapassa o limite de 48 horas
             if (dataSelecionada > dataLimite) {
                 alert('A data deve ser marcada com no máximo 2 dias de antecedência. Por favor, escolha uma data válida.');
                 return false; // Impede o envio do formulário
@@ -24,11 +29,26 @@
             return true; // Permite o envio do formulário
         }
     </script>
+    
+    
+    
+    
 </head>
 <body>
+    
     <div class="container">
         <h1>Reservar Horário</h1>
-
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <ul>
+                  {% for message in messages %}
+                    <li>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+        </div><link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <form method="POST" onsubmit="return validarData();" class="reserva-form">
             <label for="data">Escolha uma data:</label>
             <input type="date" id="data" name="data" required>
