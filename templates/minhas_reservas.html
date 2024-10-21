@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Minhas Reservas</title>
+</head>
+<body>
+    <h1>Minhas Reservas</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% if reservas %}
+        <ul>
+        {% for reserva in reservas %}
+            <li>
+                {{ reserva.data }} - {{ reserva.horario }} 
+                <a href="{{ url_for('excluir_reserva', id=reserva.id) }}">Excluir</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Você ainda não tem reservas.</p>
+    {% endif %}
+    
+    <a href="{{ url_for('index') }}">Voltar</a>
+</body>
+</html>

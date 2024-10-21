@@ -20,6 +20,8 @@
     {% if current_user.is_authenticated %}
         <p>Olá, {{ current_user.nome }}!</p>
         <a href="{{ url_for('logout') }}">Logout</a>
+        <p><a href="{{ url_for('minhas_reservas') }}">Minhas Reservas</a></p>
+
     {% else %}
         <a href="{{ url_for('login') }}">Login</a>
         <a href="{{ url_for('register') }}">Registrar</a>

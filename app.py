@@ -107,6 +107,30 @@ def proxima_semana():
     data_futura = data_atual + timedelta(weeks=1)
     return f"A data da próxima semana será: {data_futura.strftime('%Y-%m-%d')}"
 
+@app.route('/minhas_reservas', methods=['GET', 'POST'])
+@login_required
+def minhas_reservas():
+    # Obtém todas as reservas do usuário atual
+    reservas = Reserva.query.filter_by(user_id=current_user.id).all()
+    
+    return render_template('minhas_reservas.html', reservas=reservas)
+
+@app.route('/excluir_reserva/<int:id>')
+@login_required
+def excluir_reserva(id):
+    reserva = Reserva.query.get_or_404(id)
+    
+    # Verifica se a reserva pertence ao usuário atual
+    if reserva.user_id == current_user.id:
+        db.session.delete(reserva)
+        db.session.commit()
+        flash('Reserva excluída com sucesso!')
+    else:
+        flash('Você não tem permissão para excluir esta reserva.')
+
+    return redirect(url_for('minhas_reservas'))
+
+
 if __name__ == '__main__':
     with app.app_context():  # Cria um contexto de aplicação
         db.create_all()  # Isso criará as tabelas definidas nos modelos
