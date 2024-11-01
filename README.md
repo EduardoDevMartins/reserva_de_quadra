@@ -1,25 +1,88 @@
-Sistema de Reservas de Quadra de Tênis
 
 
-Este é um sistema de reservas de quadras de tênis desenvolvido com Flask, que permite aos usuários agendar horários para jogar. O sistema é projetado para facilitar o gerenciamento de reservas, garantindo que os usuários possam verificar a disponibilidade de horários e realizar reservas de forma prática e eficiente.
+Sistema de Reservas de Quadra de Tênis 🎾
 
-Funcionalidades:
-Autenticação de Usuários: Usuários podem se registrar e fazer login para gerenciar suas reservas.
-Reservas de Horários: Possibilidade de agendar reservas de quadras com até 2 dias de antecedência.
-Limitação de Reservas: Usuários podem ter no máximo duas reservas ativas simultaneamente.
-Verificação de Disponibilidade: O sistema verifica se o horário escolhido já está reservado.
-Interface Amigável: Uma interface intuitiva para facilitar a navegação e agendamento.
+Este projeto é um sistema de reservas de quadra de tênis desenvolvido com Python e Flask, com uma interface simples e visualmente agradável. O sistema permite que usuários façam e excluam reservas para uma quadra de tênis, visualizem as datas disponíveis e gerenciem seus agendamentos por meio de uma área de login.
 
-Tecnologias Utilizadas:
-Flask: Framework para desenvolvimento web em Python.
-SQLite: Banco de dados leve para armazenar as informações de reservas.
-HTML/CSS: Para a construção da interface do usuário.
-JavaScript: Para validações no lado do cliente e interações dinâmicas.
+Funcionalidades
 
-Como Usar:
-Clone este repositório.
-Instale as dependências com pip install -r requirements.txt.
-Configure o banco de dados e execute a aplicação.
-Acesse localhost/reserva para começar a fazer reservas!
+- **Visualizar Disponibilidade**: Exibe os horários disponíveis para reserva da quadra.
+- **Sistema de Login**: Usuários precisam se registrar e fazer login para acessar o sistema.
+- **Marcação de Reserva**: Permite que o usuário faça reservas informando nome, CPF e horário.
+- **Exclusão de Reserva**: Usuário pode cancelar uma reserva, se necessário.
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou um pull request.
+Tecnologias Utilizadas
+
+- **Back-end**: Flask, Flask-SQLAlchemy, Flask-Login
+- **Banco de Dados**: SQLite (para desenvolvimento local)
+- **Front-end**: HTML, CSS, JavaScript (simplificado e responsivo)
+
+Pré-requisitos
+
+- Python 3.6+
+- pip (gerenciador de pacotes do Python)
+- Ambiente virtual (opcional, mas recomendado)
+
+Como Configurar o Ambiente
+
+1. Clonar o repositório:
+
+   ```bash
+   git clone https://github.com/seu-usuario/nome-do-repositorio.git
+   cd nome-do-repositorio
+   ```
+
+2. *riar e ativar o ambiente virtual:
+
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate  # No Windows, use `venv\Scripts\activate`
+   ```
+
+3. Instalar as dependências:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Configurar o Banco de Dados:
+
+   Execute o script para criar as tabelas necessárias:
+
+   ```bash
+   flask db init
+   flask db migrate -m "Initial migration."
+   flask db upgrade
+   ```
+
+Executando o Projeto
+
+1. Iniciar o servidor Flask:
+
+   ```bash
+   flask run
+   ```
+
+2. Acessar o sistema:
+
+   Abra o navegador e acesse `http://127.0.0.1:5000`.
+
+Estrutura de Diretórios
+
+```plaintext
+nome-do-repositorio/
+├── app/
+│   ├── static/          # Arquivos CSS, JS, imagens
+│   ├── templates/       # Arquivos HTML
+│   ├── __init__.py      # Inicialização do aplicativo Flask
+│   ├── models.py        # Modelos de banco de dados
+│   ├── routes.py        # Rotas e lógica de navegação
+│   └── ...
+├── venv/                # Ambiente virtual (não enviar para o GitHub)
+├── requirements.txt     # Dependências do projeto
+└── README.md            # Este arquivo
+```
+
+Contribuição
+
+Contribuições são bem-vindas! Sinta-se à vontade para enviar issues e pull requests para melhorias ou correções.
